@@ -837,15 +837,15 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 	<dict>
 		<key>UTM_FOCUS_ON_START</key>
 		<string>1</string>
-		<key>UTM_START_QEMU_DISPOSABLE</key>
-		<string>0</string>
-		<key>UTM_SHOW_NOTIFICATIONS</key>
-		<string>1</string>
 		<key>UTM_KEYWORD</key>
 		<string>utm</string>
+		<key>UTM_SHOW_NOTIFICATIONS</key>
+		<string>1</string>
+		<key>UTM_START_QEMU_DISPOSABLE</key>
+		<string>0</string>
 	</dict>
 	<key>version</key>
-	<string>1.0.1</string>
+	<string>1.0.2</string>
 	<key>webaddress</key>
 	<string>https://github.com/ideologysec/alfred-utm-control</string>
 </dict>

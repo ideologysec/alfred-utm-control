@@ -1,4 +1,4 @@
-# UTM Control
+# Alfred-UTM-Control
 
 Search and control UTM virtual machines from Alfred. Browse VM status and hardware details, start or suspend a VM, request shutdown, clone a VM, or look up its IP address.
 
@@ -7,7 +7,7 @@ Search and control UTM virtual machines from Alfred. Browse VM status and hardwa
 - macOS with [Alfred 5 and the Powerpack](https://www.alfredapp.com/powerpack/).
 - [UTM](https://mac.getutm.app/) with its bundled `utmctl` command and VMs registered in UTM.
 
-Download the versioned `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. Use that attachment, not GitHub's source ZIP or an outer Actions artifact ZIP. UTM must be installed separately; this workflow does not install dependencies.
+Download the versioned `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. Releases use the name `Alfred-UTM-Control-vX`, where `X` is the workflow version: for 1.0, download `Alfred-UTM-Control-v1.0.alfredworkflow`. The matching checksum file is `Alfred-UTM-Control-v1.0.alfredworkflow.sha256`. Use the workflow attachment, not GitHub's source ZIP or an outer Actions artifact ZIP. UTM must be installed separately; this workflow does not install dependencies.
 
 Install updates by downloading and opening the newer workflow attachment. The workflow has no self-updater.
 
@@ -70,4 +70,4 @@ For troubleshooting, set `UTM_DEBUG=1` to include timing messages in the debugge
 
 ## License
 
-The workflow's original code uses the [MIT License](LICENSE). The UTM icon uses [Apache License 2.0](LICENSE-UTM); see [Attribution](ATTRIBUTION.md). UTM Control is an independent workflow, not an official UTM or Alfred product.
+The workflow's original code uses the [MIT License](LICENSE). The UTM icon uses [Apache License 2.0](LICENSE-UTM); see [Attribution](ATTRIBUTION.md). Alfred-UTM-Control is an independent workflow, not an official UTM or Alfred product.

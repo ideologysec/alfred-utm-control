@@ -1,4 +1,4 @@
-name: Build Alfred Workflow
+name: Build and Release Alfred Workflow
 
 on:
   push:
@@ -14,9 +14,11 @@ concurrency:
 
 jobs:
   build:
-    name: Validate and package workflow
+    name: Validate, package, and publish workflow
     runs-on: macos-15
     timeout-minutes: 10
+    permissions:
+      contents: write # Required to create releases and upload their assets.
     defaults:
       run:
         shell: bash
@@ -49,7 +51,7 @@ jobs:
           WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
         run: |
           mkdir -p dist
-          /usr/bin/zip -X -q "dist/UTM-Control-${WORKFLOW_VERSION}.alfredworkflow" \
+          /usr/bin/zip -X -q "dist/Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow" \
             info.plist icon.png LICENSE LICENSE-UTM ATTRIBUTION.md \
             bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run \
             lib/utm-common.zsh
@@ -59,16 +61,31 @@ jobs:
         env:
           WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          artifact="UTM-Control-${WORKFLOW_VERSION}.alfredworkflow"
+          artifact="Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow"
           /usr/bin/unzip -t "$artifact"
           /usr/bin/shasum -a 256 "$artifact" > "$artifact.sha256"
 
       - name: Upload workflow and checksum
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: UTM-Control-${{ steps.release.outputs.version }}
+          name: Alfred-UTM-Control-v${{ steps.release.outputs.version }}
           path: |
-            dist/UTM-Control-${{ steps.release.outputs.version }}.alfredworkflow
-            dist/UTM-Control-${{ steps.release.outputs.version }}.alfredworkflow.sha256
+            dist/Alfred-UTM-Control-v${{ steps.release.outputs.version }}.alfredworkflow
+            dist/Alfred-UTM-Control-v${{ steps.release.outputs.version }}.alfredworkflow.sha256
           if-no-files-found: error
           compression-level: 0
+
+      - name: Publish GitHub Release
+        working-directory: dist
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.ref_name }}
+          WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          artifact="Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow"
+          gh release create "$RELEASE_TAG" \
+            "$artifact" "$artifact.sha256" \
+            --verify-tag \
+            --title "Alfred-UTM-Control-${RELEASE_TAG}" \
+            --generate-notes

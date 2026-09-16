@@ -16,4 +16,4 @@
 !bin/vm-run
 !lib/
 !lib/utm-common.zsh
-!lib/utm-metadata.js
+!lib/utm-filter.js

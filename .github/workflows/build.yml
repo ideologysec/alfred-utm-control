@@ -22,6 +22,8 @@ jobs:
     defaults:
       run:
         shell: bash
+    env:
+      RELEASE_FILES: "info.plist icon.png LICENSE LICENSE-UTM ATTRIBUTION.md bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run lib/utm-common.zsh lib/utm-filter.js"
 
     steps:
       - name: Check out repository
@@ -42,20 +44,22 @@ jobs:
       - name: Validate release sources
         run: |
           /usr/bin/plutil -lint info.plist
-          for script in bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run lib/utm-common.zsh; do
-            /bin/zsh -n "$script"
+          read -r -a release_files <<< "$RELEASE_FILES"
+          for file in "${release_files[@]}"; do
+            [[ -f "$file" && ! -L "$file" ]]
+            case "$file" in
+              bin/*|*.zsh) /bin/zsh -n "$file" ;;
+              *.js) /usr/bin/osacompile -l JavaScript -o "$RUNNER_TEMP/${file##*/}.scpt" "$file" ;;
+            esac
           done
-          /usr/bin/osacompile -l JavaScript -o "$RUNNER_TEMP/utm-metadata.scpt" lib/utm-metadata.js
 
       - name: Package release files
         env:
           WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
         run: |
           mkdir -p dist
-          /usr/bin/zip -X -q "dist/Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow" \
-            info.plist icon.png LICENSE LICENSE-UTM ATTRIBUTION.md \
-            bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run \
-            lib/utm-common.zsh lib/utm-metadata.js
+          read -r -a release_files <<< "$RELEASE_FILES"
+          /usr/bin/zip -X -q "dist/Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow" "${release_files[@]}"
 
       - name: Verify archive and create checksum
         working-directory: dist

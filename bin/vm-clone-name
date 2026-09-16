@@ -2,20 +2,4 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-source "$ROOT_DIR/lib/utm-common.zsh"
-
-clone_name="${1:-}"
-vm_uuid="${VM_UUID:-${vm_uuid:-}}"
-vm_name="${VM_NAME:-${vm_name:-}}"
-
-if [[ -z "$clone_name" ]]; then
-  print -r -- '{"items":[{"title":"Enter a clone name","subtitle":"Clone name is required","valid":false}]}'
-  exit 0
-fi
-
-if [[ -z "$vm_uuid" || -z "$vm_name" ]]; then
-  print -r -- '{"items":[{"title":"No VM selected","subtitle":"Search for a virtual machine and select it","valid":false}]}'
-  exit 0
-fi
-
-print -rn -- '{"items":[{"title":'$(json_string "Clone $vm_name as $clone_name")',"subtitle":'$(json_string "utmctl clone $vm_uuid --name $clone_name")',"arg":"clone","variables":{"vm_uuid":'$(json_string "$vm_uuid")',"vm_name":'$(json_string "$vm_name")',"vm_action":"clone","clone_name":'$(json_string "$clone_name")'}}]}'
+exec /usr/bin/osascript -l JavaScript "$ROOT_DIR/lib/utm-filter.js" clone "${1:-}"

@@ -1,0 +1,378 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+source "$ROOT_DIR/lib/utm-common.zsh"
+
+mode="${1:-all}"
+started_ms="$(utm_now_ms)"
+filter="all"
+utm_focus_on_start="${UTM_FOCUS_ON_START:-${utm_focus_on_start:-1}}"
+utm_start_qemu_disposable="${UTM_START_QEMU_DISPOSABLE:-${utm_start_qemu_disposable:-0}}"
+case "$mode" in
+  (start) filter="startable" ;;
+  (stop|suspend) filter="running" ;;
+esac
+
+json_bool_false_item() {
+  local title="$1"
+  local subtitle="$2"
+  print -r -- '{"items":[{"title":'$(json_string "$title")',"subtitle":'$(json_string "$subtitle")',"valid":false}]}'
+}
+
+compact_summary() {
+  local summary="${1:-}"
+  summary="${summary//$'\r'/ }"
+  summary="${summary//$'\n'/ }"
+  summary="${summary##[[:space:]]##}"
+  summary="${summary%%[[:space:]]##}"
+  print -r -- "$summary"
+}
+
+no_match_title() {
+  local title_filter="${1:-$filter}"
+
+  case "$title_filter" in
+    (startable) print -r -- "No stopped or suspended VMs found" ;;
+    (running) print -r -- "No running VMs found" ;;
+    (*) print -r -- "No VMs found" ;;
+  esac
+}
+
+start_focus_default_value() {
+  if [[ "$utm_focus_on_start" == 1 ]]; then
+    print -r -- "1"
+  else
+    print -r -- "0"
+  fi
+}
+
+inverse_bool_value() {
+  if [[ "${1:-0}" == 1 ]]; then
+    print -r -- "0"
+  else
+    print -r -- "1"
+  fi
+}
+
+start_action_for_record() {
+  local backend_value="${1:-}"
+  local disposable_value="${2:-0}"
+
+  if [[ "$backend_value" == "QEMU" && "$disposable_value" == 1 ]]; then
+    print -r -- "start-disposable"
+  else
+    print -r -- "start"
+  fi
+}
+
+start_action_subtitle() {
+  case "$1" in
+    (start-disposable) print -r -- "Start without saving changes" ;;
+    (*) print -r -- "Start normally" ;;
+  esac
+}
+
+start_focus_subtitle() {
+  if [[ "${1:-1}" == 1 ]]; then
+    print -r -- "bring UTM to front"
+  else
+    print -r -- "without bringing UTM to front"
+  fi
+}
+
+start_variables_json() {
+  local uuid_value="$1"
+  local name_value="$2"
+  local status_value="$3"
+  local backend_value="$4"
+  local action_value="$5"
+  local focus_value="$6"
+
+  print -rn -- '"variables":{"vm_uuid":'$(json_string "$uuid_value")',"vm_name":'$(json_string "$name_value")',"vm_status":'$(json_string "$status_value")',"vm_backend":'$(json_string "$backend_value")',"vm_action_scope":"start","vm_action":'$(json_string "$action_value")',"UTM_FOCUS_AFTER_START":'$(json_string "$focus_value")'}'
+}
+
+record_item_json() {
+  local record="$1"
+  local item_mode="${2:-$mode}"
+  local uuid vm_status name rest
+  local config icon icon_custom backend arch cpu_count memory_mb memory_label boot_os os_label
+  local compute_label subtitle match icon_path
+  local start_focus default_start_action alt_start_action default_focus alt_focus
+  local -a subtitle_parts compute_parts match_parts
+
+  uuid="${record%%$'\t'*}"
+  rest="${record#*$'\t'}"
+  vm_status="${rest%%$'\t'*}"
+  name="${rest#*$'\t'}"
+
+  config="${VM_CONFIG[$uuid]:-}"
+  icon="${VM_ICON[$uuid]:-}"
+  icon_custom="${VM_ICON_CUSTOM[$uuid]:-false}"
+  backend="${VM_BACKEND[$uuid]:-}"
+  arch="${VM_ARCH[$uuid]:-}"
+  cpu_count="${VM_CPU_COUNT[$uuid]:-}"
+  memory_mb="${VM_MEMORY_MB[$uuid]:-}"
+  boot_os="${VM_BOOT_OS[$uuid]:-}"
+
+  os_label="$(display_os_label "${icon:-}" "${boot_os:-}" "$name")"
+
+  subtitle_parts=("$vm_status")
+  [[ -n "${os_label:-}" ]] && subtitle_parts+=("$os_label")
+  [[ -n "${backend:-}" ]] && subtitle_parts+=("$backend")
+  [[ -n "${arch:-}" ]] && subtitle_parts+=("$arch")
+
+  compute_parts=()
+  [[ -n "${cpu_count:-}" ]] && compute_parts+=("$cpu_count CPU")
+  if memory_label="$(human_memory_gb "${memory_mb:-}")"; then
+    [[ -n "$memory_label" ]] && compute_parts+=("$memory_label")
+  fi
+  [[ ${#compute_parts[@]} -gt 0 ]] && subtitle_parts+=("${(j: / :)compute_parts}")
+  subtitle="${(j: - :)subtitle_parts}"
+
+  match_parts=("$name")
+  [[ -n "${os_label:-}" ]] && match_parts+=("$os_label")
+  [[ -n "${backend:-}" ]] && match_parts+=("$backend")
+  [[ -n "${arch:-}" ]] && match_parts+=("$arch")
+  match="${(j: :)match_parts}"
+
+  icon_path="$(resolve_icon_path "$UTM_ICON_DIR" "${icon:-}" "${icon_custom:-false}")"
+
+  if [[ "$item_mode" == "start" ]]; then
+    default_focus="$(start_focus_default_value)"
+    alt_focus="$(inverse_bool_value "$default_focus")"
+    default_start_action="$(start_action_for_record "${backend:-}" "$utm_start_qemu_disposable")"
+
+    print -rn -- '{"uid":'$(json_string "$uuid")',"title":'$(json_string "$name")',"subtitle":'$(json_string "$subtitle")',"arg":'$(json_string "$name")',"match":'$(json_string "$match")','
+    start_variables_json "$uuid" "$name" "$vm_status" "${backend:-}" "$default_start_action" "$default_focus"
+    print -rn -- ',"mods":{"cmd":{"valid":true,"subtitle":'$(json_string "Start $(start_focus_subtitle "$alt_focus")")',"arg":'$(json_string "$name")','
+    start_variables_json "$uuid" "$name" "$vm_status" "${backend:-}" "$default_start_action" "$alt_focus"
+    print -rn -- '}'
+
+    if [[ "${backend:-}" == "QEMU" ]]; then
+      if [[ "$default_start_action" == "start-disposable" ]]; then
+        alt_start_action="start"
+      else
+        alt_start_action="start-disposable"
+      fi
+
+      print -rn -- ',"alt":{"valid":true,"subtitle":'$(json_string "$(start_action_subtitle "$alt_start_action")")',"arg":'$(json_string "$name")','
+      start_variables_json "$uuid" "$name" "$vm_status" "${backend:-}" "$alt_start_action" "$default_focus"
+      print -rn -- '}'
+      print -rn -- ',"cmd+alt":{"valid":true,"subtitle":'$(json_string "$(start_action_subtitle "$alt_start_action") and $(start_focus_subtitle "$alt_focus")")',"arg":'$(json_string "$name")','
+      start_variables_json "$uuid" "$name" "$vm_status" "${backend:-}" "$alt_start_action" "$alt_focus"
+      print -rn -- '}'
+    fi
+
+    print -rn -- '}'
+  else
+    print -rn -- '{"uid":'$(json_string "$uuid")',"title":'$(json_string "$name")',"subtitle":'$(json_string "$subtitle")',"arg":'$(json_string "$name")',"match":'$(json_string "$match")',"variables":{"vm_uuid":'$(json_string "$uuid")',"vm_name":'$(json_string "$name")',"vm_status":'$(json_string "$vm_status")',"vm_backend":'$(json_string "${backend:-}")'}'
+  fi
+
+  if [[ -n "$icon_path" ]]; then
+    print -rn -- ',"icon":{"path":'$(json_string "$icon_path")'}'
+  fi
+  print -r -- '}'
+}
+
+metadata_row_from_plist_dump() {
+  emulate -L zsh
+  setopt extended_glob
+
+  local config="$1"
+  local dump="$2"
+  local line trimmed key value spaces path
+  local level depth
+  local uuid="" icon="" icon_custom="" backend="" arch="" cpu_count="" memory_mb="" boot_os=""
+  local tab=$'\t'
+  local -a lines path_stack
+
+  lines=("${(@f)dump}")
+  for line in "${lines[@]}"; do
+    [[ "$line" == *" = "* ]] || continue
+
+    spaces="${line%%[! ]*}"
+    level=$(( ${#spaces} / 4 ))
+    trimmed="${line##[[:space:]]##}"
+    key="${trimmed%% = *}"
+    value="${trimmed#* = }"
+
+    if [[ "$value" == "Dict {" || "$value" == "Array {" ]]; then
+      path_stack[$level]="$key"
+      depth=$((level + 1))
+      while (( depth <= 12 )); do
+        unset "path_stack[$depth]"
+        depth=$((depth + 1))
+      done
+      continue
+    fi
+
+    path=""
+    depth=1
+    while (( depth < level )); do
+      if [[ -n "${path_stack[$depth]:-}" ]]; then
+        if [[ -z "$path" ]]; then
+          path="${path_stack[$depth]}"
+        else
+          path="$path:${path_stack[$depth]}"
+        fi
+      fi
+      depth=$((depth + 1))
+    done
+    if [[ -z "$path" ]]; then
+      path="$key"
+    else
+      path="$path:$key"
+    fi
+
+    case "$path" in
+      (Backend) backend="$value" ;;
+      (Information:UUID) uuid="$value" ;;
+      (Information:Icon) icon="$value" ;;
+      (Information:IconCustom) icon_custom="$value" ;;
+      (System:Architecture) arch="$value" ;;
+      (System:CPUCount) cpu_count="$value" ;;
+      (System:MemorySize) memory_mb="$value" ;;
+      (System:Boot:OperatingSystem) boot_os="$value" ;;
+    esac
+  done
+
+  [[ -n "$uuid" ]] || return 1
+  print -r -- "$uuid$tab$config$tab$icon$tab$icon_custom$tab$backend$tab$arch$tab$cpu_count$tab$memory_mb$tab$boot_os"
+}
+
+metadata_row_for_config() {
+  emulate -L zsh
+
+  local config="$1"
+  local dump
+
+  dump="$("$PLISTBUDDY_BIN" -c Print "$config" 2>/dev/null)" || return 1
+  metadata_row_from_plist_dump "$config" "$dump"
+}
+
+load_metadata_index() {
+  emulate -L zsh
+  setopt null_glob no_bg_nice
+
+  local config temp_dir row_file pid
+  local uuid config_path icon icon_custom backend arch cpu_count memory_mb boot_os
+  local cache_file signature="" cached_payload metadata_payload="" tmp_file
+  local cache_hit=0 cacheable=1
+  local -a row_files pids metadata_rows
+
+  cache_file="$(utm_cache_dir)/vm-metadata.tsv"
+  if [[ "${UTM_CACHE_DISABLE:-0}" != 1 ]]; then
+    signature="$(utm_metadata_signature 2>/dev/null)" || signature=""
+    if [[ -n "$signature" && -r "$cache_file" ]]; then
+      cached_payload="$(<"$cache_file")"
+      if [[ "${cached_payload%%$'\n'*}" == "$signature" ]]; then
+        metadata_payload="${cached_payload#"$signature"}"
+        metadata_payload="${metadata_payload#$'\n'}"
+        cache_hit=1
+      fi
+    fi
+  fi
+
+  if (( ! cache_hit )); then
+    temp_dir="$(mktemp -d "${TMPDIR:-/tmp}/alfred-utm-metadata.XXXXXX")" || return 0
+    for config in "$UTM_DOCS_DIR"/*.utm/config.plist; do
+      row_file="$temp_dir/metadata-${#row_files}.tsv"
+      row_files+=("$row_file")
+      metadata_row_for_config "$config" > "$row_file" &
+      pids+=("$!")
+    done
+
+    for pid in "${pids[@]}"; do
+      wait "$pid" || cacheable=0
+    done
+
+    for row_file in "${row_files[@]}"; do
+      [[ -s "$row_file" ]] && metadata_rows+=("$(<"$row_file")")
+    done
+    metadata_payload="${(F)metadata_rows}"
+    rm -rf "$temp_dir"
+
+    # Publish signature and rows together; concurrent readers see one snapshot.
+    if [[ -n "$signature" && "$cacheable" == 1 ]] &&
+       mkdir -p "${cache_file:h}" 2>/dev/null &&
+       tmp_file="$(mktemp "$cache_file.XXXXXX" 2>/dev/null)"; then
+      if print -r -- "$signature"$'\n'"$metadata_payload" > "$tmp_file"; then
+        mv -f "$tmp_file" "$cache_file" 2>/dev/null || rm -f "$tmp_file"
+      else
+        rm -f "$tmp_file"
+      fi
+    fi
+  fi
+
+  while IFS=$'\t' read -r uuid config_path icon icon_custom backend arch cpu_count memory_mb boot_os; do
+    [[ -n "$uuid" ]] || continue
+    VM_CONFIG[$uuid]="$config_path"
+    VM_ICON[$uuid]="$icon"
+    VM_ICON_CUSTOM[$uuid]="$icon_custom"
+    VM_BACKEND[$uuid]="$backend"
+    VM_ARCH[$uuid]="$arch"
+    VM_CPU_COUNT[$uuid]="$cpu_count"
+    VM_MEMORY_MB[$uuid]="$memory_mb"
+    VM_BOOT_OS[$uuid]="$boot_os"
+  done <<< "$metadata_payload"
+}
+
+json_for_filter() {
+  local output_filter="$1"
+  local output_mode="${2:-$mode}"
+  local filtered_output
+  local -a filtered_records
+
+  filtered_output="$(filter_records "$output_filter" "${records[@]}")"
+  filtered_records=()
+  if [[ -n "$filtered_output" ]]; then
+    filtered_records=("${(@f)filtered_output}")
+  fi
+
+  if [[ ${#filtered_records[@]} -eq 0 ]]; then
+    print -r -- '{"items":[{"title":'$(json_string "$(no_match_title "$output_filter")")',"subtitle":"","valid":false}]}'
+    return
+  fi
+
+  print -rn -- '{"items":['
+  for index in {1..${#filtered_records[@]}}; do
+    [[ "$index" -gt 1 ]] && print -rn -- ','
+    print -rn -- "$(record_item_json "$filtered_records[$index]" "$output_mode")"
+  done
+  print -r -- ']}'
+}
+
+if [[ -n "${UTMCTL_FIXTURE_LIST:-}" ]]; then
+  loaded_records="$(parse_utmctl_list_file "$UTMCTL_FIXTURE_LIST")"
+else
+  if [[ ! -x "$UTMCTL_BIN" ]]; then
+    json_bool_false_item "utmctl not found" "Expected /Applications/UTM.app/Contents/MacOS/utmctl"
+    exit 0
+  fi
+
+  set +e
+  list_output="$("$UTMCTL_BIN" list 2>&1)"
+  list_status="$?"
+  set -e
+  if [[ "$list_status" -ne 0 ]]; then
+    list_summary="$(compact_summary "$list_output")"
+    [[ -n "$list_summary" ]] || list_summary="exit status $list_status"
+    json_bool_false_item "utmctl list failed" "$list_summary"
+    exit 0
+  fi
+
+  loaded_records="$(parse_utmctl_list_text "$list_output")"
+fi
+records=()
+if [[ -n "$loaded_records" ]]; then
+  records=("${(@f)loaded_records}")
+fi
+
+typeset -A VM_CONFIG VM_ICON VM_ICON_CUSTOM VM_BACKEND VM_ARCH VM_CPU_COUNT VM_MEMORY_MB VM_BOOT_OS
+load_metadata_index
+
+json_output="$(json_for_filter "$filter")"
+finished_ms="$(utm_now_ms)"
+utm_debug_log "vm-list mode=$mode state=live elapsed_ms=$((finished_ms - started_ms))"
+print -r -- "$json_output"

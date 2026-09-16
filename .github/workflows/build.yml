@@ -1,0 +1,74 @@
+name: Build Alfred Workflow
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: alfred-workflow-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Validate and package workflow
+    runs-on: macos-15
+    timeout-minutes: 10
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Check release version
+        id: release
+        run: |
+          version="$(/usr/libexec/PlistBuddy -c 'Print :version' info.plist)"
+          if [[ "$GITHUB_REF_NAME" != "v$version" ]]; then
+            printf '::error::Tag %s does not match workflow version v%s\n' "$GITHUB_REF_NAME" "$version"
+            exit 1
+          fi
+          printf 'version=%s\n' "$version" >> "$GITHUB_OUTPUT"
+
+      - name: Validate release sources
+        run: |
+          /usr/bin/plutil -lint info.plist
+          for script in bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run lib/utm-common.zsh; do
+            /bin/zsh -n "$script"
+          done
+
+      - name: Package release files
+        env:
+          WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          mkdir -p dist
+          /usr/bin/zip -X -q "dist/UTM-Control-${WORKFLOW_VERSION}.alfredworkflow" \
+            info.plist icon.png LICENSE LICENSE-UTM ATTRIBUTION.md \
+            bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run \
+            lib/utm-common.zsh
+
+      - name: Verify archive and create checksum
+        working-directory: dist
+        env:
+          WORKFLOW_VERSION: ${{ steps.release.outputs.version }}
+        run: |
+          artifact="UTM-Control-${WORKFLOW_VERSION}.alfredworkflow"
+          /usr/bin/unzip -t "$artifact"
+          /usr/bin/shasum -a 256 "$artifact" > "$artifact.sha256"
+
+      - name: Upload workflow and checksum
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: UTM-Control-${{ steps.release.outputs.version }}
+          path: |
+            dist/UTM-Control-${{ steps.release.outputs.version }}.alfredworkflow
+            dist/UTM-Control-${{ steps.release.outputs.version }}.alfredworkflow.sha256
+          if-no-files-found: error
+          compression-level: 0

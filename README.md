@@ -1,0 +1,73 @@
+# UTM Control
+
+Search and control UTM virtual machines from Alfred. Browse VM status and hardware details, start or suspend a VM, request shutdown, clone a VM, or look up its IP address.
+
+## Requirements and installation
+
+- macOS with [Alfred 5 and the Powerpack](https://www.alfredapp.com/powerpack/).
+- [UTM](https://mac.getutm.app/) with its bundled `utmctl` command and VMs registered in UTM.
+
+Download the versioned `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. Use that attachment, not GitHub's source ZIP or an outer Actions artifact ZIP. UTM must be installed separately; this workflow does not install dependencies.
+
+Install updates by downloading and opening the newer workflow attachment. The workflow has no self-updater.
+
+## Browse VMs
+
+Type `utm` followed by a search term, such as `utm ubuntu`. Search by VM name, OS, backend, or architecture. Bare `utm`, including a trailing space, does not load results.
+
+Select a VM and press **Return** to open its status-aware action list, then press **Return** on an action to run it. Results show live status and available metadata: OS, QEMU or Apple virtualization backend, architecture, CPU count, and memory.
+
+- Stopped, suspended, and paused VMs offer **Start**.
+- Running or started VMs offer **Stop**, **Force Stop**, **Suspend**, and **IP Address**.
+- **Clone** prompts for a non-empty name before creating the clone.
+- **IP Address** reports what `utmctl` returns through an action notification. Availability depends on UTM and the guest; keep notifications enabled to see the output.
+
+**Stop requests a guest shutdown. Force Stop powers off immediately and can lose unsaved work or damage guest data.** UTM may reject actions that the VM or backend does not support.
+
+## Direct actions and modifiers
+
+Use `utm start`, `utm stop`, or `utm suspend` to select a VM and perform that action directly. Each keyword accepts an optional search term; without one, it lists all eligible VMs.
+
+- `utm start` lists stopped, suspended, and paused VMs.
+- `utm stop` and `utm suspend` list running or started VMs.
+- **Command–Return** on a start result or start action reverses the configured bring-to-front behavior for that launch.
+- **Option–Return** on a QEMU result under `utm start` switches between normal and disposable mode for that launch.
+- **Command–Option–Return** on a QEMU result under `utm start` reverses both settings.
+
+The browse action list also offers **Run Without Saving Changes** for recognized QEMU VMs. This passes UTM's `--disposable` option: **do not use it for work you intend to keep**. Apple virtualization VMs do not receive disposable actions. The disposable-default setting affects the `utm start` shortcut, not the separate explicit actions in the browse list.
+
+## Configuration
+
+Open **Configure Workflow** in Alfred to set:
+
+- **Keyword:** the base keyword, default `utm`. Changing it changes the browse keyword and all three direct-action keywords. For example, choosing `vm` gives `vm`, `vm start`, `vm stop`, and `vm suspend`.
+- **Bring UTM to the front:** on by default after a successful start.
+- **Action notifications:** on by default. Keep them enabled for IP-address output and action feedback.
+- **Disposable QEMU starts:** off by default; applies to the direct start shortcut.
+
+### Nonstandard paths
+
+The workflow uses these defaults. For a nonstandard installation, add or set the corresponding environment variables in Alfred's workflow editor to the appropriate absolute paths; these are advanced overrides, not Configure Workflow fields.
+
+- `UTMCTL_BIN`: `/Applications/UTM.app/Contents/MacOS/utmctl`
+- `UTM_DOCS_DIR`: `~/Library/Containers/com.utmapp.UTM/Data/Documents`
+- `UTM_ICON_DIR`: `/Applications/UTM.app/Contents/Resources/Icons`
+
+Bringing UTM forward uses macOS `open -a UTM`.
+
+## Known limitations
+
+- Each new keyword invocation reads live state from `utmctl`. Alfred filters the results locally as you type; an open list does not poll. Reopen the keyword after changing a VM's state.
+- Only configuration metadata is cached, not live status.
+- Metadata comes from `*.utm/config.plist` immediately inside `UTM_DOCS_DIR`. Externally stored VMs can still be listed and controlled, but may lack hardware details, backend information, and guest icons. Disposable-start options require recognized QEMU metadata.
+- The workflow does not resolve external VM bookmarks or display custom guest icons. Stock guest icons come from the installed UTM application.
+
+## Support
+
+[Report a bug or request a feature](https://github.com/ideologysec/alfred-utm-control/issues). Include the workflow, Alfred, and UTM versions, the keyword/action used, and relevant Alfred debugger output. Remove private VM names, paths, and IP addresses before sharing logs.
+
+For troubleshooting, set `UTM_DEBUG=1` to include timing messages in the debugger, or `UTM_CACHE_DISABLE=1` to bypass the metadata cache.
+
+## License
+
+The workflow's original code uses the [MIT License](LICENSE). The UTM icon uses [Apache License 2.0](LICENSE-UTM); see [Attribution](ATTRIBUTION.md). UTM Control is an independent workflow, not an official UTM or Alfred product.

@@ -1,0 +1,107 @@
+#!/usr/bin/env zsh
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+source "$ROOT_DIR/lib/utm-common.zsh"
+
+vm_uuid="${VM_UUID:-${vm_uuid:-}}"
+vm_name="${VM_NAME:-${vm_name:-}}"
+vm_action="${VM_ACTION:-${vm_action:-}}"
+clone_name="${CLONE_NAME:-${clone_name:-}}"
+utm_focus_after_start="${UTM_FOCUS_AFTER_START:-${utm_focus_after_start:-${UTM_FOCUS_ON_START:-1}}}"
+
+if [[ -z "$vm_uuid" && -z "$vm_name" && -z "$vm_action" && $# -ge 3 ]]; then
+  vm_uuid="$1"
+  vm_name="$2"
+  vm_action="$3"
+  clone_name="${clone_name:-${4:-}}"
+elif [[ -z "$vm_action" && $# -ge 1 ]]; then
+  vm_action="$1"
+fi
+
+shell_command() {
+  local -a command=("$@")
+  print -r -- "${(j: :)${(@q)command}}"
+}
+
+should_focus_after_start() {
+  [[ "$utm_focus_after_start" == 1 ]] || return 1
+  case "$vm_action" in
+    (start|start-disposable) return 0 ;;
+    (*) return 1 ;;
+  esac
+}
+
+focus_utm() {
+  "${UTM_FOCUS_BIN:-/usr/bin/open}" -a UTM >/dev/null 2>&1 || true
+}
+
+run_command() {
+  local success_message="$1"
+  shift
+
+  local output cmd_status
+  local -a command=("$@")
+
+  if [[ "${VM_DRY_RUN:-}" == 1 ]]; then
+    shell_command "${command[@]}"
+    return 0
+  fi
+
+  set +e
+  output="$("${command[@]}" 2>&1)"
+  cmd_status="$?"
+  set -e
+
+  if [[ "$cmd_status" -ne 0 ]]; then
+    print -r -- "Failed: $output"
+    exit "$cmd_status"
+  fi
+
+  if should_focus_after_start; then
+    focus_utm
+  fi
+
+  if [[ "$vm_action" == "ip-address" && -n "$output" ]]; then
+    print -r -- "IP addresses for $vm_name: $output"
+  else
+    print -r -- "$success_message"
+  fi
+}
+
+if [[ -z "$vm_uuid" || -z "$vm_name" || -z "$vm_action" ]]; then
+  print -r -- "Missing VM action context"
+  exit 1
+fi
+
+case "$vm_action" in
+  (start)
+    run_command "Started $vm_name" "$UTMCTL_BIN" start "$vm_uuid"
+    ;;
+  (start-disposable)
+    run_command "Started $vm_name without saving changes" "$UTMCTL_BIN" start "$vm_uuid" --disposable
+    ;;
+  (stop)
+    run_command "Requested shutdown for $vm_name" "$UTMCTL_BIN" stop "$vm_uuid" --request
+    ;;
+  (force-stop)
+    run_command "Force stop sent to $vm_name" "$UTMCTL_BIN" stop "$vm_uuid" --force
+    ;;
+  (suspend)
+    run_command "Suspended $vm_name" "$UTMCTL_BIN" suspend "$vm_uuid"
+    ;;
+  (ip-address)
+    run_command "IP addresses for $vm_name:" "$UTMCTL_BIN" ip-address "$vm_uuid"
+    ;;
+  (clone)
+    if [[ -z "$clone_name" ]]; then
+      print -r -- "Missing VM action context"
+      exit 1
+    fi
+    run_command "Clone created: $clone_name" "$UTMCTL_BIN" clone "$vm_uuid" --name "$clone_name"
+    ;;
+  (*)
+    print -r -- "Unknown VM action: $vm_action"
+    exit 1
+    ;;
+esac

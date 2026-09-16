@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>gy.ideolo.utmcontrol</string>
+	<key>category</key>
+	<string></string>
+	<key>connections</key>
+	<dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1003</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1004</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1009</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1009</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>C1D7DA71-A3E8-4D2E-A9CB-9C47F951C10E</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1013</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</key>
+		<array/>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1013</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>D0603C0B-9C4E-43B9-9E91-B419633206F3</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>IdSec</string>
+	<key>description</key>
+	<string>Control UTM virtual machines</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>UTM Control</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading UTM virtual machines...</string>
+				<key>script</key>
+				<string>./bin/vm-list all</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Type the keyword followed by a VM search term</string>
+				<key>title</key>
+				<string>Browse UTM VMs</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} start</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading startable UTM virtual machines...</string>
+				<key>script</key>
+				<string>./bin/vm-list start</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose a stopped or suspended UTM VM to start</string>
+				<key>title</key>
+				<string>Start UTM VM</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} stop</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading running UTM virtual machines...</string>
+				<key>script</key>
+				<string>./bin/vm-list stop</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose a running UTM VM to request shutdown</string>
+				<key>title</key>
+				<string>Stop UTM VM</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1003</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} suspend</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading running UTM virtual machines...</string>
+				<key>script</key>
+				<string>./bin/vm-list suspend</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose a running UTM VM to suspend</string>
+				<key>title</key>
+				<string>Suspend UTM VM</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1004</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string></string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading actions...</string>
+				<key>script</key>
+				<string>./bin/vm-actions</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose an action for the selected UTM VM</string>
+				<key>title</key>
+				<string>UTM VM Actions</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>vm_action</key>
+					<string>stop</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>vm_action</key>
+					<string>suspend</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:vm_action}</string>
+						<key>matchcasesensitive</key>
+						<true/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>clone</string>
+						<key>outputlabel</key>
+						<string>Clone</string>
+						<key>uid</key>
+						<string>C1D7DA71-A3E8-4D2E-A9CB-9C47F951C10E</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>Run action</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1009</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string></string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Preparing clone...</string>
+				<key>script</key>
+				<string>./bin/vm-clone-name "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Enter a clone name for the selected UTM VM</string>
+				<key>title</key>
+				<string>Clone UTM VM</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./bin/vm-run</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>UTM</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{var:UTM_SHOW_NOTIFICATIONS}</string>
+						<key>matchcasesensitive</key>
+						<true/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>1</string>
+						<key>outputlabel</key>
+						<string>Show notification</string>
+						<key>uid</key>
+						<string>D0603C0B-9C4E-43B9-9E91-B419633206F3</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>Skip notification</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1013</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string>## Usage
+
+Search UTM virtual machines with `utm` followed by a search term, for example `utm ubuntu`. A non-empty search term is required; the keyword alone, even with a trailing space, does not load VM results. Select a VM and press Return to open its status-aware action list.
+
+Change **Keyword** in Configure Workflow to use another base keyword, such as `vm`, locally. Replace `utm` in the examples below with your chosen keyword.
+
+### Actions and shortcuts
+
+- `utm start [search]`: start a stopped or suspended VM.
+- `utm stop [search]`: request shutdown of a running VM.
+- `utm suspend [search]`: suspend a running VM.
+
+Search is optional for these shortcuts. Select a result and press Return to perform the action.
+
+The browse action list also offers **Clone**, which prompts for a name, and **IP Address** for running VMs. **Force Stop** powers off a running VM instead of requesting shutdown and may lose unsaved data.
+
+### Start options
+
+Hold **Command** when selecting a start result or start action to invert the configured focus behavior for that launch.
+
+For QEMU VMs, **Run Without Saving Changes** starts in disposable snapshot mode. Configure the start shortcut to use disposable mode by default, or hold **Option** on a QEMU start-shortcut result to invert that setting for one launch. **Command+Option** inverts both disposable mode and focus behavior. Disposable mode is not offered for Apple Virtualization VMs.
+
+### Configuration and freshness
+
+Configure Workflow also controls whether UTM comes to the front after starting and whether Alfred shows action notifications.
+
+Each new browse or shortcut invocation reads live VM state from UTM. Typing filters the results locally in Alfred; an open list does not poll automatically. Reopen the keyword to refresh after a state change.
+
+### Support
+
+See the [repository](https://github.com/ideologysec/alfred-utm-control) for setup details and [report issues](https://github.com/ideologysec/alfred-utm-control/issues) for help.</string>
+	<key>uidata</key>
+	<dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</key>
+		<dict>
+			<key>note</key>
+			<string>Browse all UTM virtual machines</string>
+			<key>xpos</key>
+			<real>80</real>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</key>
+		<dict>
+			<key>note</key>
+			<string>Fast start keyword</string>
+			<key>xpos</key>
+			<real>80</real>
+			<key>ypos</key>
+			<real>420</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1003</key>
+		<dict>
+			<key>note</key>
+			<string>Fast stop keyword</string>
+			<key>xpos</key>
+			<real>80</real>
+			<key>ypos</key>
+			<real>560</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1004</key>
+		<dict>
+			<key>note</key>
+			<string>Fast suspend keyword</string>
+			<key>xpos</key>
+			<real>80</real>
+			<key>ypos</key>
+			<real>700</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</key>
+		<dict>
+			<key>note</key>
+			<string>Status-aware action list for the selected VM</string>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>180</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</key>
+		<dict>
+			<key>note</key>
+			<string>Set vm_action=stop</string>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>590</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</key>
+		<dict>
+			<key>note</key>
+			<string>Set vm_action=suspend</string>
+			<key>xpos</key>
+			<real>340</real>
+			<key>ypos</key>
+			<real>730</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1009</key>
+		<dict>
+			<key>note</key>
+			<string>Route vm_action=clone to the clone-name prompt; route all other actions to vm-run</string>
+			<key>xpos</key>
+			<real>600</real>
+			<key>ypos</key>
+			<real>200</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</key>
+		<dict>
+			<key>note</key>
+			<string>Prompt for clone_name while preserving selected VM variables</string>
+			<key>xpos</key>
+			<real>875</real>
+			<key>ypos</key>
+			<real>165</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</key>
+		<dict>
+			<key>note</key>
+			<string>Execute the selected UTM action</string>
+			<key>xpos</key>
+			<real>1125</real>
+			<key>ypos</key>
+			<real>480</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</key>
+		<dict>
+			<key>note</key>
+			<string>Show vm-run output</string>
+			<key>xpos</key>
+			<real>1385</real>
+			<key>ypos</key>
+			<real>480</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1013</key>
+		<dict>
+			<key>note</key>
+			<string>Only show notifications when enabled in workflow configuration</string>
+			<key>xpos</key>
+			<real>1260</real>
+			<key>ypos</key>
+			<real>480</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Bring UTM to the front after starting a VM. Hold Command on a start action to invert this for one launch.</string>
+			<key>label</key>
+			<string>Bring UTM to front after starting a VM</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>UTM_FOCUS_ON_START</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Show an Alfred notification after a UTM action finishes.</string>
+			<key>label</key>
+			<string>Show notifications after actions</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>UTM_SHOW_NOTIFICATIONS</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<false/>
+			</dict>
+			<key>description</key>
+			<string>Start QEMU VMs without saving changes by default from the start shortcut. Hold Option on a start-shortcut result to invert this for one launch.</string>
+			<key>label</key>
+			<string>Start QEMU VMs disposable by default</string>
+			<key>type</key>
+			<string>checkbox</string>
+			<key>variable</key>
+			<string>UTM_START_QEMU_DISPOSABLE</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>utm</string>
+				<key>placeholder</key>
+				<string>utm</string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Base keyword for browsing and the start, stop, and suspend shortcuts. Defaults to utm; set vm here if you prefer it locally.</string>
+			<key>label</key>
+			<string>Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>UTM_KEYWORD</string>
+		</dict>
+	</array>
+	<key>variables</key>
+	<dict>
+		<key>UTM_FOCUS_ON_START</key>
+		<string>1</string>
+		<key>UTM_START_QEMU_DISPOSABLE</key>
+		<string>0</string>
+		<key>UTM_SHOW_NOTIFICATIONS</key>
+		<string>1</string>
+		<key>UTM_KEYWORD</key>
+		<string>utm</string>
+	</dict>
+	<key>version</key>
+	<string>1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/ideologysec/alfred-utm-control</string>
+</dict>
+</plist>

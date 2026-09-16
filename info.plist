@@ -21,6 +21,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</key>
 		<array>
 			<dict>
@@ -224,6 +237,55 @@
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} list</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading UTM virtual machines...</string>
+				<key>script</key>
+				<string>./bin/vm-list all</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Show all VMs, then choose an action</string>
+				<key>title</key>
+				<string>List UTM VMs</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -626,6 +688,8 @@
 
 Search UTM virtual machines with `utm` followed by a search term, for example `utm ubuntu`. A non-empty search term is required; the keyword alone, even with a trailing space, does not load VM results. Select a VM and press Return to open its status-aware action list.
 
+Use `utm list` to show all VMs without a search term. You can narrow the list with `utm list ubuntu`. Select a VM and press Return to choose an action; listing and selecting a VM do not start or stop it.
+
 Change **Keyword** in Configure Workflow to use another base keyword, such as `vm`, locally. Replace `utm` in the examples below with your chosen keyword.
 
 ### Actions and shortcuts
@@ -663,6 +727,15 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<real>80</real>
 			<key>ypos</key>
 			<real>180</real>
+		</dict>
+		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</key>
+		<dict>
+			<key>note</key>
+			<string>List all VMs with optional search, then choose an action</string>
+			<key>xpos</key>
+			<real>80</real>
+			<key>ypos</key>
+			<real>300</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</key>
 		<dict>
@@ -824,7 +897,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Base keyword for browsing and the start, stop, and suspend shortcuts. Defaults to utm; set vm here if you prefer it locally.</string>
+			<string>Base keyword for browsing, listing, and the start, stop, and suspend shortcuts. Defaults to utm; set vm here if you prefer it locally.</string>
 			<key>label</key>
 			<string>Keyword</string>
 			<key>type</key>
@@ -845,7 +918,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 		<string>0</string>
 	</dict>
 	<key>version</key>
-	<string>1.0.2</string>
+	<string>1.1.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/ideologysec/alfred-utm-control</string>
 </dict>

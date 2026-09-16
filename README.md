@@ -1,19 +1,21 @@
 # Alfred-UTM-Control
 
-Search and control UTM virtual machines from Alfred. Browse VM status and hardware details, start or suspend a VM, request shutdown, clone a VM, or look up its IP address.
+Search and control UTM virtual machines from Alfred. Browse VM status and details, start or suspend a VM, request shutdown, and even clone a VM.
 
 ## Requirements and installation
 
 - macOS with [Alfred 5 and the Powerpack](https://www.alfredapp.com/powerpack/).
 - [UTM](https://mac.getutm.app/) with its bundled `utmctl` command and VMs registered in UTM.
 
-Download the versioned `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. Releases use the name `Alfred-UTM-Control-vX`, where `X` is the workflow version: for 1.0, download `Alfred-UTM-Control-v1.0.alfredworkflow`. The matching checksum file is `Alfred-UTM-Control-v1.0.alfredworkflow.sha256`. Use the workflow attachment, not GitHub's source ZIP or an outer Actions artifact ZIP. UTM must be installed separately; this workflow does not install dependencies.
+Download the `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. The matching checksum file is `Alfred-UTM-Control-v1.0.alfredworkflow.sha256`. Use the .workflow attachment, not GitHub's source ZIP. UTM must be installed separately; this workflow does not install dependencies.
 
 Install updates by downloading and opening the newer workflow attachment. The workflow has no self-updater.
 
 ## Browse VMs
 
 Type `utm` followed by a search term, such as `utm ubuntu`. Search by VM name, OS, backend, or architecture. Bare `utm`, including a trailing space, does not load results.
+
+Use `utm list` to show all VMs without a search term. An optional term, such as `utm list ubuntu`, narrows the results. Listing and selecting a VM does not start or stop it.
 
 Select a VM and press **Return** to open its status-aware action list, then press **Return** on an action to run it. Results show live status and available metadata: OS, QEMU or Apple virtualization backend, architecture, CPU count, and memory.
 
@@ -34,15 +36,15 @@ Use `utm start`, `utm stop`, or `utm suspend` to select a VM and perform that ac
 - **Option–Return** on a QEMU result under `utm start` switches between normal and disposable mode for that launch.
 - **Command–Option–Return** on a QEMU result under `utm start` reverses both settings.
 
-The browse action list also offers **Run Without Saving Changes** for recognized QEMU VMs. This passes UTM's `--disposable` option: **do not use it for work you intend to keep**. Apple virtualization VMs do not receive disposable actions. The disposable-default setting affects the `utm start` shortcut, not the separate explicit actions in the browse list.
+The browse action list also offers **Run Without Saving Changes** for recognized QEMU VMs. This passes UTM's `--disposable` option. Do not use it for work you intend to keep. Apple virtualization VMs do not have this option, as it is not supported by macOS (yet). ***The disposable-default setting only affects the `utm start` shortcut, not the separate explicit actions in the browse list.***
 
 ## Configuration
 
 Open **Configure Workflow** in Alfred to set:
 
-- **Keyword:** the base keyword, default `utm`. Changing it changes the browse keyword and all three direct-action keywords. For example, choosing `vm` gives `vm`, `vm start`, `vm stop`, and `vm suspend`.
+- **Keyword:** the base keyword, default `utm`. Changing it changes the browse, list, and direct-action keywords. For example, choosing `vm` gives `vm`, `vm list`, `vm start`, `vm stop`, and `vm suspend`.
 - **Bring UTM to the front:** on by default after a successful start.
-- **Action notifications:** on by default. Keep them enabled for IP-address output and action feedback.
+- **Action notifications:** on by default. Keep them enabled for action feedback.
 - **Disposable QEMU starts:** off by default; applies to the direct start shortcut.
 
 ### Nonstandard paths
@@ -53,7 +55,7 @@ The workflow uses these defaults. For a nonstandard installation, add or set the
 - `UTM_DOCS_DIR`: `~/Library/Containers/com.utmapp.UTM/Data/Documents`
 - `UTM_ICON_DIR`: `/Applications/UTM.app/Contents/Resources/Icons`
 
-Bringing UTM forward uses macOS `open -a UTM`.
+Bringing UTM forward uses macOS' `open -a UTM`.
 
 ## Known limitations
 

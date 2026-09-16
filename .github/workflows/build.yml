@@ -45,6 +45,7 @@ jobs:
           for script in bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run lib/utm-common.zsh; do
             /bin/zsh -n "$script"
           done
+          /usr/bin/osacompile -l JavaScript -o "$RUNNER_TEMP/utm-metadata.scpt" lib/utm-metadata.js
 
       - name: Package release files
         env:
@@ -54,7 +55,7 @@ jobs:
           /usr/bin/zip -X -q "dist/Alfred-UTM-Control-v${WORKFLOW_VERSION}.alfredworkflow" \
             info.plist icon.png LICENSE LICENSE-UTM ATTRIBUTION.md \
             bin/vm-list bin/vm-actions bin/vm-clone-name bin/vm-run \
-            lib/utm-common.zsh
+            lib/utm-common.zsh lib/utm-metadata.js
 
       - name: Verify archive and create checksum
         working-directory: dist

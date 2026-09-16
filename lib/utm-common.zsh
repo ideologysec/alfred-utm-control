@@ -1,7 +1,6 @@
 #!/usr/bin/env zsh
 
 : "${UTMCTL_BIN:=/Applications/UTM.app/Contents/MacOS/utmctl}"
-: "${PLISTBUDDY_BIN:=/usr/libexec/PlistBuddy}"
 : "${UTM_DOCS_DIR:=$HOME/Library/Containers/com.utmapp.UTM/Data/Documents}"
 : "${UTM_ICON_DIR:=/Applications/UTM.app/Contents/Resources/Icons}"
 
@@ -13,6 +12,37 @@ json_string() {
   value="${value//$'\r'/\\r}"
   value="${value//$'\t'/\\t}"
   print -r -- "\"$value\""
+}
+
+is_start_action() {
+  [[ "$1" == start || "$1" == start-disposable ]]
+}
+
+start_focus_default_value() {
+  if [[ "${1:-1}" == 1 ]]; then
+    print -r -- "1"
+  else
+    print -r -- "0"
+  fi
+}
+
+start_focus_subtitle() {
+  if [[ "$1" == 1 ]]; then
+    print -r -- "bring UTM to front"
+  else
+    print -r -- "without bringing UTM to front"
+  fi
+}
+
+action_variables_json() {
+  local uuid="$1" name="$2" vm_status="$3" backend="$4" action="$5"
+  local focus="${6:-}"
+
+  print -rn -- '"variables":{"vm_uuid":'"$(json_string "$uuid")"',"vm_name":'"$(json_string "$name")"',"vm_status":'"$(json_string "$vm_status")"',"vm_backend":'"$(json_string "$backend")"',"vm_action":'"$(json_string "$action")"
+  if is_start_action "$action"; then
+    print -rn -- ',"UTM_FOCUS_AFTER_START":'"$(json_string "$focus")"
+  fi
+  print -rn -- '}'
 }
 
 utm_now_ms() {
@@ -29,13 +59,42 @@ utm_debug_log() {
   print -ru2 -- "[alfred-utm] $*"
 }
 
-plist_get() {
-  local plist_path="$1"
-  local key_path="$2"
+# Call directly (not in a subshell) to retain the output and error variables.
+utm_command() {
+  emulate -L zsh
 
-  [[ -f "$plist_path" ]] || return 0
-  "$PLISTBUDDY_BIN" -c "Print $key_path" "$plist_path" 2>/dev/null || true
+  UTM_COMMAND_OUTPUT=""
+  UTM_COMMAND_ERROR=""
+  local stderr_file stderr_text
+  local cmd_status=0
+
+  if ! stderr_file="$(mktemp "${TMPDIR:-/tmp}/alfred-utm-command.XXXXXX")"; then
+    UTM_COMMAND_ERROR="Could not capture UTM command diagnostics."
+    return 1
+  fi
+
+  {
+    if UTM_COMMAND_OUTPUT="$("$@" 2>"$stderr_file")"; then
+      cmd_status=0
+    else
+      cmd_status=$?
+    fi
+    stderr_text="$(<"$stderr_file")"
+    # Keep warnings in Alfred's debugger, never in list or IP-address data.
+    /bin/cat "$stderr_file" >&2
+  } always {
+    /bin/rm -f "$stderr_file"
+  }
+
+  if (( cmd_status == 0 )) && [[ "$stderr_text" == 'Error from event:'* || "$stderr_text" == *$'\nError from event:'* ]]; then
+    cmd_status=1
+  fi
+  if (( cmd_status != 0 )); then
+    UTM_COMMAND_ERROR="${stderr_text:-${UTM_COMMAND_OUTPUT:-UTM command failed (exit status $cmd_status).}}"
+  fi
+  return "$cmd_status"
 }
+
 
 parse_utmctl_list_text() {
   emulate -L zsh
@@ -43,7 +102,10 @@ parse_utmctl_list_text() {
 
   local text
   local line uuid rest vm_status name
-  local -a lines
+  local line_number=0
+  local uuid_pattern='^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$'
+  local header_pattern='^UUID[[:space:]]+STATUS[[:space:]]+NAME$'
+  local -a lines records
 
   if (( $# > 0 )); then
     text="$1"
@@ -53,25 +115,40 @@ parse_utmctl_list_text() {
 
   lines=("${(@f)text}")
   for line in "${lines[@]}"; do
+    line_number=$((line_number + 1))
     line="${line##[[:space:]]##}"
     line="${line%%[[:space:]]##}"
-    [[ -z "$line" || "$line" == UUID[[:space:]]* ]] && continue
+    [[ -z "$line" || "${line:u}" =~ "$header_pattern" ]] && continue
 
     uuid="${line%%[[:space:]]*}"
+    if [[ ! "$uuid" =~ "$uuid_pattern" ]]; then
+      print -ru2 -- "Invalid utmctl list row $line_number: expected a canonical UUID."
+      return 1
+    fi
     rest="${line#$uuid}"
     rest="${rest##[[:space:]]##}"
     vm_status="${rest%%[[:space:]]*}"
     name="${rest#$vm_status}"
     name="${name##[[:space:]]##}"
 
-    [[ -n "$uuid" && -n "$vm_status" && -n "$name" ]] || continue
-    print -r -- "$uuid	$vm_status	$name"
+    if [[ -z "$vm_status" || -z "$name" ]]; then
+      print -ru2 -- "Invalid utmctl list row $line_number: expected UUID, status, and name."
+      return 1
+    fi
+    records+=("$uuid	$vm_status	$name")
   done
+  if (( ${#records[@]} )); then
+    printf '%s\n' "${records[@]}"
+  fi
+  return 0
 }
 
 parse_utmctl_list_file() {
   local list_path="$1"
-  [[ -f "$list_path" ]] || return 0
+  if [[ ! -f "$list_path" || ! -r "$list_path" ]]; then
+    print -ru2 -- "Cannot read utmctl list file: $list_path"
+    return 1
+  fi
   parse_utmctl_list_text "$(<"$list_path")"
 }
 
@@ -146,21 +223,6 @@ display_os_label() {
   esac
 }
 
-find_config_by_uuid() {
-  local docs_dir="$1"
-  local uuid="$2"
-  local config config_uuid
-
-  for config in "$docs_dir"/*.utm/config.plist(N); do
-    config_uuid="$(plist_get "$config" ":Information:UUID")"
-    if [[ "$config_uuid" == "$uuid" ]]; then
-      print -r -- "$config"
-      return
-    fi
-  done
-
-  return 0
-}
 
 resolve_icon_path() {
   local icon_dir="$1"

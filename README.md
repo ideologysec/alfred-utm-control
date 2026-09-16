@@ -68,6 +68,8 @@ Bringing UTM forward uses macOS `open -a UTM`.
 
 For troubleshooting, set `UTM_DEBUG=1` to include timing messages in the debugger, or `UTM_CACHE_DISABLE=1` to bypass the metadata cache.
 
+UTM scripting errors are reported as failures even when `utmctl` exits zero. Other stderr diagnostics remain in Alfred's debugger rather than becoming VM names or IP addresses. Unreadable VM metadata does not prevent listing or controlling that VM.
+
 ## License
 
 The workflow's original code uses the [MIT License](LICENSE). The UTM icon uses [Apache License 2.0](LICENSE-UTM); see [Attribution](ATTRIBUTION.md). Alfred-UTM-Control is an independent workflow, not an official UTM or Alfred product.

@@ -8,54 +8,12 @@ vm_uuid="${VM_UUID:-${vm_uuid:-}}"
 vm_name="${VM_NAME:-${vm_name:-}}"
 vm_status="${VM_STATUS:-${vm_status:-}}"
 vm_backend="${VM_BACKEND:-${vm_backend:-}}"
-vm_action_scope="${VM_ACTION_SCOPE:-${vm_action_scope:-}}"
 utm_focus_on_start="${UTM_FOCUS_ON_START:-${utm_focus_on_start:-1}}"
 
 invalid_item_json() {
   print -r -- '{"items":[{"title":"No VM selected","subtitle":"Search for a virtual machine and select it","valid":false}]}'
 }
 
-is_start_action() {
-  case "$1" in
-    (start|start-disposable) return 0 ;;
-    (*) return 1 ;;
-  esac
-}
-
-focus_default_value() {
-  if [[ "$utm_focus_on_start" == 1 ]]; then
-    print -r -- "1"
-  else
-    print -r -- "0"
-  fi
-}
-
-focus_inverse_value() {
-  if [[ "$(focus_default_value)" == 1 ]]; then
-    print -r -- "0"
-  else
-    print -r -- "1"
-  fi
-}
-
-focus_modifier_subtitle() {
-  if [[ "$(focus_default_value)" == 1 ]]; then
-    print -r -- "Start without bringing UTM to front"
-  else
-    print -r -- "Start and bring UTM to front"
-  fi
-}
-
-action_variables_json() {
-  local action="$1"
-  local focus_value="${2:-}"
-
-  print -rn -- '"variables":{"vm_uuid":'$(json_string "$vm_uuid")',"vm_name":'$(json_string "$vm_name")',"vm_status":'$(json_string "$vm_status")',"vm_backend":'$(json_string "$vm_backend")',"vm_action":'$(json_string "$action")
-  if is_start_action "$action"; then
-    print -rn -- ',"UTM_FOCUS_AFTER_START":'$(json_string "$focus_value")
-  fi
-  print -rn -- '}'
-}
 
 action_item_json() {
   local title="$1"
@@ -69,17 +27,17 @@ action_item_json() {
   fi
 
   if is_start_action "$action"; then
-    focus_value="$(focus_default_value)"
+    focus_value="$(start_focus_default_value "$utm_focus_on_start")"
   fi
 
   print -rn -- '{"title":'$(json_string "$title")',"subtitle":'$(json_string "$subtitle")',"arg":'$(json_string "$arg")','
-  action_variables_json "$action" "$focus_value"
+  action_variables_json "$vm_uuid" "$vm_name" "$vm_status" "$vm_backend" "$action" "$focus_value"
 
   if is_start_action "$action"; then
-    cmd_focus_value="$(focus_inverse_value)"
-    cmd_subtitle="$(focus_modifier_subtitle)"
+    cmd_focus_value="$((1 - focus_value))"
+    cmd_subtitle="Start ($(start_focus_subtitle "$cmd_focus_value"))"
     print -rn -- ',"mods":{"cmd":{"valid":true,"subtitle":'$(json_string "$cmd_subtitle")',"arg":'$(json_string "$arg")','
-    action_variables_json "$action" "$cmd_focus_value"
+    action_variables_json "$vm_uuid" "$vm_name" "$vm_status" "$vm_backend" "$action" "$cmd_focus_value"
     print -rn -- '}}'
   fi
 
@@ -106,10 +64,6 @@ case "$vm_status" in
     append_action "Start $vm_name" "Start this virtual machine" "start"
     if [[ "$vm_backend" == "QEMU" ]]; then
       append_action "Run $vm_name Without Saving Changes" "Start disposable snapshot mode" "start-disposable"
-    fi
-    if [[ "$vm_action_scope" == "start" ]]; then
-      print -r -- '{"items":['"${(j:,:)items}"']}'
-      exit 0
     fi
     ;;
   (running|started)

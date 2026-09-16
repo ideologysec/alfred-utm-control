@@ -26,10 +26,7 @@ shell_command() {
 
 should_focus_after_start() {
   [[ "$utm_focus_after_start" == 1 ]] || return 1
-  case "$vm_action" in
-    (start|start-disposable) return 0 ;;
-    (*) return 1 ;;
-  esac
+  is_start_action "$vm_action"
 }
 
 focus_utm() {
@@ -40,7 +37,7 @@ run_command() {
   local success_message="$1"
   shift
 
-  local output cmd_status
+  local cmd_status
   local -a command=("$@")
 
   if [[ "${VM_DRY_RUN:-}" == 1 ]]; then
@@ -48,22 +45,20 @@ run_command() {
     return 0
   fi
 
-  set +e
-  output="$("${command[@]}" 2>&1)"
-  cmd_status="$?"
-  set -e
-
-  if [[ "$cmd_status" -ne 0 ]]; then
-    print -r -- "Failed: $output"
-    exit "$cmd_status"
+  if utm_command "${command[@]}"; then
+    :
+  else
+    cmd_status=$?
+    print -r -- "Failed: $UTM_COMMAND_ERROR"
+    return "$cmd_status"
   fi
 
   if should_focus_after_start; then
     focus_utm
   fi
 
-  if [[ "$vm_action" == "ip-address" && -n "$output" ]]; then
-    print -r -- "IP addresses for $vm_name: $output"
+  if [[ "$vm_action" == "ip-address" && -n "$UTM_COMMAND_OUTPUT" ]]; then
+    print -r -- "IP addresses for $vm_name: $UTM_COMMAND_OUTPUT"
   else
     print -r -- "$success_message"
   fi

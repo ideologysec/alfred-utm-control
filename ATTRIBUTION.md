@@ -6,6 +6,6 @@
 
 The icon belongs to its respective upstream copyright holders and is not covered by this repository's MIT licence. The existing PNG has not been modified as part of this release preparation.
 
-UTM Control is an independent workflow, not an official UTM or Alfred product. Use of the icon does not imply endorsement. The Apache licence does not grant trademark rights beyond its stated terms.
+Alfred UTM Control is an independent workflow, not an official UTM or Alfred product. Use of the icon does not imply endorsement. The Apache licence does not grant trademark rights beyond its stated terms.
 
 VM operating-system icons are read from the user's installed UTM application at runtime; they are not bundled in the workflow archive.

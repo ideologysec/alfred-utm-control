@@ -2,12 +2,20 @@
 
 Search and control UTM virtual machines from Alfred. Browse VM status and details, start or suspend a VM, request shutdown, and even clone a VM.
 
-## Requirements and installation
+![Alfred showing the UTM browse, list, start, stop, and suspend keywords](images/utm-1.png)
+
+## Requirements
 
 - macOS with [Alfred 5 and the Powerpack](https://www.alfredapp.com/powerpack/).
 - [UTM](https://mac.getutm.app/) with its bundled `utmctl` command and VMs registered in UTM.
 
-Download the `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and open it in Alfred. The matching checksum file is `Alfred-UTM-Control-v1.0.alfredworkflow.sha256`. Use the .workflow attachment, not GitHub's source ZIP. UTM must be installed separately; this workflow does not install dependencies.
+**Tested:** Alfred 5 and UTM v5.0.5 on macOS 26 and 27.
+
+**Expected compatibility:** any macOS version compatible with Alfred 5 and with any UTM versions that have `utmctl`.
+
+## Installation
+
+Download the `.alfredworkflow` attachment from [Releases](https://github.com/ideologysec/alfred-utm-control/releases) and double-click to open it in Alfred, or use the Import Workflow button. Be sure to download the `.alfredworkflow` attachment, not GitHub's source ZIP.
 
 Install updates by downloading and opening the newer workflow attachment. The workflow has no self-updater.
 
@@ -17,6 +25,8 @@ Type `utm` followed by a search term, such as `utm ubuntu`. Search by VM name, O
 
 Use `utm list` to show all VMs without a search term. An optional term, such as `utm list ubuntu`, narrows the results. Listing and selecting a VM does not start or stop it.
 
+![Searching for Ubuntu VMs in Alfred, with status, backend, CPU, and memory details](images/utm-2.png)
+
 Select a VM and press **Return** to open its status-aware action list, then press **Return** on an action to run it. Results show live status and available metadata: OS, QEMU or Apple virtualization backend, architecture, CPU count, and memory.
 
 - Stopped, suspended, and paused VMs offer **Start**.
@@ -25,6 +35,8 @@ Select a VM and press **Return** to open its status-aware action list, then pres
 - **IP Address** reports what `utmctl` returns through an action notification. Availability depends on UTM and the guest; keep notifications enabled to see the output.
 
 **Stop requests a guest shutdown. Force Stop powers off immediately and can lose unsaved work or damage guest data.** UTM may reject actions that the VM or backend does not support.
+
+![Actions for a stopped QEMU VM: Start, Run Without Saving Changes, and Clone](images/utm-3.png)
 
 ## Direct actions and modifiers
 
@@ -71,6 +83,10 @@ Bringing UTM forward uses macOS' `open -a UTM`.
 For troubleshooting, set `UTM_DEBUG=1` to include timing messages in the debugger, or `UTM_CACHE_DISABLE=1` to bypass the metadata cache.
 
 UTM scripting errors are reported as failures even when `utmctl` exits zero. Other stderr diagnostics remain in Alfred's debugger rather than becoming VM names or IP addresses. Unreadable VM metadata does not prevent listing or controlling that VM.
+
+## Development and testing
+
+The maintainer created this workflow with help from large language models (LLMs). The human maintainer is responsible for reviewing the code, validating its behavior, and testing releases.
 
 ## License
 

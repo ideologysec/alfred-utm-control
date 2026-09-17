@@ -14,10 +14,4 @@
 !LICENSE-UTM
 !ATTRIBUTION.md
 !bin/
-!bin/vm-list
-!bin/vm-actions
-!bin/vm-clone-name
-!bin/vm-run
-!lib/
-!lib/utm-common.zsh
-!lib/utm-filter.js
+!bin/**

@@ -1,5 +1,0 @@
-#!/usr/bin/env zsh
-set -euo pipefail
-
-ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
-exec /usr/bin/osascript -l JavaScript "$ROOT_DIR/lib/utm-filter.js" clone "${1:-}"

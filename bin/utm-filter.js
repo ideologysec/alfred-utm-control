@@ -56,6 +56,61 @@ function readText(path) {
     return ObjC.unwrap(text);
 }
 
+function command(executable, args, input, forwardStderr) {
+    var directory = ObjC.unwrap($.NSTemporaryDirectory()) + 'alfred-utm-' + ObjC.unwrap($.NSUUID.UUID.UUIDString);
+    var handles = [];
+    if (!files.createDirectoryAtPathWithIntermediateDirectoriesAttributesError(
+        $(directory), false, $({NSFilePosixPermissions: 448}), null)) {
+        throw new Error('Could not capture UTM command diagnostics.');
+    }
+    try {
+        // Regular files keep either stream from filling a pipe while we wait.
+        ['stdout', 'stderr', 'stdin'].forEach(function (name) {
+            var data = $(name === 'stdin' ? input || '' : '').dataUsingEncoding($.NSUTF8StringEncoding);
+            if (!data.writeToFileAtomically($(directory + '/' + name), false)) {
+                throw new Error('Could not capture UTM command diagnostics.');
+            }
+        });
+        var stdout = $.NSFileHandle.fileHandleForWritingAtPath($(directory + '/stdout'));
+        var stderr = $.NSFileHandle.fileHandleForWritingAtPath($(directory + '/stderr'));
+        var stdin = $.NSFileHandle.fileHandleForReadingAtPath($(directory + '/stdin'));
+        handles = [stdout, stderr, stdin];
+        var task = $.NSTask.alloc.init;
+        task.launchPath = $(executable);
+        task.arguments = $(args);
+        task.standardOutput = stdout;
+        task.standardError = stderr;
+        task.standardInput = stdin;
+        var error = Ref();
+        if (!task.launchAndReturnError(error)) {
+            throw new Error(error[0] ? ObjC.unwrap(error[0].localizedDescription) : 'Could not launch ' + executable);
+        }
+        task.waitUntilExit;
+        if (forwardStderr) {
+            $.NSFileHandle.fileHandleWithStandardError.writeData(
+                $.NSData.dataWithContentsOfFile($(directory + '/stderr')));
+        }
+        return {status: task.terminationStatus, stdout: readText(directory + '/stdout'), stderr: readText(directory + '/stderr')};
+    } finally {
+        handles.forEach(function (handle) { handle.closeFile; });
+        files.removeItemAtPathError($(directory), null);
+    }
+}
+
+function metadataSignature(docs, configs) {
+    if (env('UTM_CACHE_DISABLE') === '1') return '';
+    try {
+        var contents = '';
+        if (configs.length) {
+            var checksums = command('/usr/bin/cksum', configs);
+            if (checksums.status !== 0) return '';
+            contents = checksums.stdout;
+        }
+        var signature = command('/usr/bin/cksum', [], 'metadata-schema=' + schema + '\ndocs=' + docs + '\n' + contents);
+        return signature.status === 0 ? signature.stdout.trim() : '';
+    } catch (_) { return ''; }
+}
+
 function readCache(path, signature) {
     try {
         var cache = JSON.parse(readText(path));
@@ -79,18 +134,19 @@ function writeCache(path, signature, records) {
     } catch (_) {}
 }
 
-function metadata(signature) {
+function metadata() {
     var docs = env('UTM_DOCS_DIR', env('HOME') + '/Library/Containers/com.utmapp.UTM/Data/Documents');
     var cachePath = env('UTM_CACHE_DIR', env('alfred_workflow_cache', env('TMPDIR', '/tmp') + '/alfred-utm-cache')) + '/vm-metadata.json';
+    var children = ObjC.deepUnwrap(files.contentsOfDirectoryAtPathError($(docs), null)) || [];
+    var configs = children.sort().filter(function (name) { return /\.utm$/.test(name); }).map(function (name) {
+        return docs + '/' + name + '/config.plist';
+    }).filter(function (path) { return files.fileExistsAtPath($(path)); });
+    var signature = metadataSignature(docs, configs);
     var records = signature ? readCache(cachePath, signature) : null;
     if (records !== null) return records;
-    var children = ObjC.deepUnwrap(files.contentsOfDirectoryAtPathError($(docs), null)) || [];
     var complete = true;
     records = Object.create(null);
-    children.sort().forEach(function (name) {
-        if (!/\.utm$/.test(name)) return;
-        var path = docs + '/' + name + '/config.plist';
-        if (!files.fileExistsAtPath($(path))) return;
+    configs.forEach(function (path) {
         try {
             var entry = readConfig($.NSData.dataWithContentsOfFile($(path)));
             records[entry.uuid] = entry.record;
@@ -177,16 +233,25 @@ function parseList(text) {
     return result;
 }
 
-function list(mode, signature) {
+function list(mode) {
     var text;
     var records;
     try {
-        text = env('UTMCTL_FIXTURE_LIST') ? readText(env('UTMCTL_FIXTURE_LIST')) : ObjC.unwrap(
-            $.NSString.alloc.initWithDataEncoding($.NSFileHandle.fileHandleWithStandardInput.readDataToEndOfFile, $.NSUTF8StringEncoding));
+        if (env('UTMCTL_FIXTURE_LIST')) text = readText(env('UTMCTL_FIXTURE_LIST'));
+        else {
+            var executable = env('UTMCTL_BIN', '/Applications/UTM.app/Contents/MacOS/utmctl');
+            if (!files.isExecutableFileAtPath($(executable))) return invalid('utmctl not found', 'Expected ' + executable);
+            var result = command(executable, ['list'], '', true);
+            if (result.status !== 0 || /^Error from event:/m.test(result.stderr)) {
+                var diagnostic = result.stderr || result.stdout || 'UTM command failed (exit status ' + result.status + ').';
+                return invalid('utmctl list failed', diagnostic.replace(/[\r\n]/g, ' ').trim());
+            }
+            text = result.stdout;
+        }
         records = parseList(text);
     } catch (error) {
         console.log(String(error));
-        return invalid('utmctl list failed', 'Invalid VM list; see Alfred\'s debugger for details');
+        return invalid('utmctl list failed', String(error.message || error).replace(/[\r\n]/g, ' ').trim());
     }
     var filter = mode === 'start' ? 'startable' : mode === 'stop' || mode === 'suspend' ? 'running' : 'all';
     records = records.filter(function (vm) {
@@ -195,7 +260,7 @@ function list(mode, signature) {
     if (!records.length) return invalid(filter === 'startable' ? 'No stopped or suspended VMs found' :
         filter === 'running' ? 'No running VMs found' : 'No VMs found', '');
     if (filter === 'startable') records.sort(function (a, b) { return a.uuid < b.uuid ? -1 : a.uuid > b.uuid ? 1 : 0; });
-    var index = metadata(signature);
+    var index = metadata();
     var iconDir = env('UTM_ICON_DIR', '/Applications/UTM.app/Contents/Resources/Icons');
     return {items: records.map(function (vm) {
         var record = index[vm.uuid] || {};
@@ -222,7 +287,7 @@ function actions() {
     if (!vm.uuid || !vm.name || !vm.status) return invalid('No VM selected', 'Search for a virtual machine and select it');
     var items = [];
     function add(title, subtitle, action) {
-        var arg = action === 'clone' ? '' : vm.uuid;
+        var arg = action === 'clone' ? vm.name : vm.uuid;
         var item = {title: title, subtitle: subtitle, arg: arg};
         if (action === 'start' || action === 'start-disposable') Object.assign(item, startPayload(vm, action, arg, false));
         else item.variables = variables(vm, action);
@@ -230,7 +295,7 @@ function actions() {
     }
     if (['stopped', 'suspended', 'paused'].indexOf(vm.status) !== -1) {
         add('Start ' + vm.name, 'Start this virtual machine', 'start');
-        if (vm.backend === 'QEMU') add('Run ' + vm.name + ' Without Saving Changes', 'Start disposable snapshot mode', 'start-disposable');
+        if (vm.backend === 'QEMU') add('Run ' + vm.name + ' Without Saving Changes', 'Start in disposable mode', 'start-disposable');
     } else if (['running', 'started'].indexOf(vm.status) !== -1) {
         add('Stop ' + vm.name, 'Shut down this virtual machine', 'stop');
         add('Force Stop ' + vm.name, 'Power off this virtual machine', 'force-stop');
@@ -253,10 +318,14 @@ function clone(name) {
 function run(argv) {
     var output;
     switch (argv[0]) {
-        case 'list': output = list(argv[1] || 'all', argv[2] || ''); break;
+        case 'list':
+            var started = Date.now();
+            var mode = argv[1] || 'all';
+            output = list(mode);
+            if (env('UTM_DEBUG') === '1') console.log('[alfred-utm] vm-list mode=' + mode + ' state=live elapsed_ms=' + (Date.now() - started));
+            break;
         case 'actions': output = actions(); break;
         case 'clone': output = clone(argv[1] || ''); break;
-        case 'error': output = invalid(argv[1], (argv[2] || '').replace(/[\r\n]/g, ' ').trim()); break;
         default: throw new Error('Unknown filter mode');
     }
     return JSON.stringify(output);

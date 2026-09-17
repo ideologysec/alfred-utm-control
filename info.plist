@@ -5,7 +5,7 @@
 	<key>bundleid</key>
 	<string>gy.ideolo.utmcontrol</string>
 	<key>category</key>
-	<string></string>
+	<string>Tools</string>
 	<key>connections</key>
 	<dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</key>
@@ -219,7 +219,9 @@
 				<key>runningsubtext</key>
 				<string>Loading UTM virtual machines...</string>
 				<key>script</key>
-				<string>./bin/vm-list all</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'all']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -229,7 +231,7 @@
 				<key>title</key>
 				<string>Browse UTM VMs</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -268,7 +270,9 @@
 				<key>runningsubtext</key>
 				<string>Loading UTM virtual machines...</string>
 				<key>script</key>
-				<string>./bin/vm-list all</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'all']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -278,7 +282,7 @@
 				<key>title</key>
 				<string>List UTM VMs</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -317,7 +321,9 @@
 				<key>runningsubtext</key>
 				<string>Loading startable UTM virtual machines...</string>
 				<key>script</key>
-				<string>./bin/vm-list start</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'start']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -327,7 +333,7 @@
 				<key>title</key>
 				<string>Start UTM VM</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -366,7 +372,9 @@
 				<key>runningsubtext</key>
 				<string>Loading running UTM virtual machines...</string>
 				<key>script</key>
-				<string>./bin/vm-list stop</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'stop']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -376,7 +384,7 @@
 				<key>title</key>
 				<string>Stop UTM VM</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -415,7 +423,9 @@
 				<key>runningsubtext</key>
 				<string>Loading running UTM virtual machines...</string>
 				<key>script</key>
-				<string>./bin/vm-list suspend</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'suspend']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -425,7 +435,7 @@
 				<key>title</key>
 				<string>Suspend UTM VM</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -464,7 +474,9 @@
 				<key>runningsubtext</key>
 				<string>Loading actions...</string>
 				<key>script</key>
-				<string>./bin/vm-actions</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['actions']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -474,7 +486,7 @@
 				<key>title</key>
 				<string>UTM VM Actions</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -585,7 +597,9 @@
 				<key>runningsubtext</key>
 				<string>Preparing clone...</string>
 				<key>script</key>
-				<string>./bin/vm-clone-name "$1"</string>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['clone', argv[0] || '']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -595,7 +609,7 @@
 				<key>title</key>
 				<string>Clone UTM VM</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>7</integer>
 				<key>withspace</key>
 				<true/>
 			</dict>
@@ -614,13 +628,13 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./bin/vm-run</string>
+				<string></string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
-				<string></string>
+				<string>bin/vm-run</string>
 				<key>type</key>
-				<integer>0</integer>
+				<integer>8</integer>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.script</string>
@@ -700,7 +714,7 @@ Change **Keyword** in Configure Workflow to use another base keyword, such as `v
 
 Search is optional for these shortcuts. Select a result and press Return to perform the action.
 
-The browse action list also offers **Clone**, which prompts for a name, and **IP Address** for running VMs. **Force Stop** powers off a running VM instead of requesting shutdown and may lose unsaved data.
+The browse action list also offers **Clone**, which prefills the selected VM's name so you can edit it before confirming, and **IP Address** for running VMs. Clone names must not be empty. **Force Stop** powers off a running VM instead of requesting shutdown and may lose unsaved data.
 
 ### Start options
 
@@ -844,11 +858,13 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<dict>
 				<key>default</key>
 				<true/>
+				<key>text</key>
+				<string>Bring UTM to front after starting a VM</string>
 			</dict>
 			<key>description</key>
-			<string>Bring UTM to the front after starting a VM. Hold Command on a start action to invert this for one launch.</string>
+			<string>Hold Command on a start action to invert this for one launch.</string>
 			<key>label</key>
-			<string>Bring UTM to front after starting a VM</string>
+			<string></string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -859,11 +875,13 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<dict>
 				<key>default</key>
 				<true/>
+				<key>text</key>
+				<string>Show notifications after actions</string>
 			</dict>
 			<key>description</key>
-			<string>Show an Alfred notification after a UTM action finishes.</string>
+			<string>Includes action results and IP addresses.</string>
 			<key>label</key>
-			<string>Show notifications after actions</string>
+			<string></string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -874,11 +892,13 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<dict>
 				<key>default</key>
 				<false/>
+				<key>text</key>
+				<string>Start QEMU VMs without saving changes by default</string>
 			</dict>
 			<key>description</key>
-			<string>Start QEMU VMs without saving changes by default from the start shortcut. Hold Option on a start-shortcut result to invert this for one launch.</string>
+			<string>Applies to the start shortcut. Hold Option on a result to invert this for one launch. Do not enable this for work you intend to keep.</string>
 			<key>label</key>
-			<string>Start QEMU VMs disposable by default</string>
+			<string></string>
 			<key>type</key>
 			<string>checkbox</string>
 			<key>variable</key>
@@ -907,18 +927,9 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 		</dict>
 	</array>
 	<key>variables</key>
-	<dict>
-		<key>UTM_FOCUS_ON_START</key>
-		<string>1</string>
-		<key>UTM_KEYWORD</key>
-		<string>utm</string>
-		<key>UTM_SHOW_NOTIFICATIONS</key>
-		<string>1</string>
-		<key>UTM_START_QEMU_DISPOSABLE</key>
-		<string>0</string>
-	</dict>
+	<dict/>
 	<key>version</key>
-	<string>1.1.1</string>
+	<string>1.2.0</string>
 	<key>webaddress</key>
 	<string>https://github.com/ideologysec/alfred-utm-control</string>
 </dict>

@@ -31,8 +31,8 @@ Select a VM and press **Return** to open its status-aware action list, then pres
 
 - Stopped, suspended, and paused VMs offer **Start**.
 - Running or started VMs offer **Stop**, **Force Stop**, **Suspend**, and **IP Address**.
-- **Clone** prompts for a non-empty name before creating the clone.
-- **IP Address** reports what `utmctl` returns through an action notification. Availability depends on UTM and the guest; keep notifications enabled to see the output.
+- **Clone** prefills the selected VM's name so you can edit it into a variation before confirming. The name must not be empty.
+- **IP Address** reports what `utmctl` returns, via a system notification. The guest must be running.
 
 **Stop requests a guest shutdown. Force Stop powers off immediately and can lose unsaved work or damage guest data.** UTM may reject actions that the VM or backend does not support.
 

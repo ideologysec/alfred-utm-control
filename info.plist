@@ -167,19 +167,6 @@
 				<false/>
 			</dict>
 		</array>
-		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</key>
-		<array>
-			<dict>
-				<key>destinationuid</key>
-				<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1005</string>
-				<key>modifiers</key>
-				<integer>0</integer>
-				<key>modifiersubtext</key>
-				<string></string>
-				<key>vitoclose</key>
-				<false/>
-			</dict>
-		</array>
 	</dict>
 	<key>createdby</key>
 	<string>IdSec</string>
@@ -195,6 +182,57 @@
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string></string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Preparing clone...</string>
+				<key>script</key>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['clone', argv[0] || '']); }</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Enter a clone name for the selected UTM VM</string>
+				<key>title</key>
+				<string>Clone UTM VM</string>
+				<key>type</key>
+				<integer>7</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
 				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
 				<integer>2</integer>
@@ -203,7 +241,7 @@
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>0</integer>
+				<integer>1</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
@@ -227,7 +265,7 @@ function run(argv) { return filter(['list', 'all']); }</string>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Type the keyword followed by a VM search term</string>
+				<string>Type a VM search term or leave it empty to show all VMs</string>
 				<key>title</key>
 				<string>Browse UTM VMs</string>
 				<key>type</key>
@@ -239,210 +277,6 @@ function run(argv) { return filter(['list', 'all']); }</string>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
 			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1001</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:UTM_KEYWORD} list</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Loading UTM virtual machines...</string>
-				<key>script</key>
-				<string>ObjC.import('Foundation');
-var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
-function run(argv) { return filter(['list', 'all']); }</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Show all VMs, then choose an action</string>
-				<key>title</key>
-				<string>List UTM VMs</string>
-				<key>type</key>
-				<integer>7</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:UTM_KEYWORD} start</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Loading startable UTM virtual machines...</string>
-				<key>script</key>
-				<string>ObjC.import('Foundation');
-var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
-function run(argv) { return filter(['list', 'start']); }</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Choose a stopped or suspended UTM VM to start</string>
-				<key>title</key>
-				<string>Start UTM VM</string>
-				<key>type</key>
-				<integer>7</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:UTM_KEYWORD} stop</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Loading running UTM virtual machines...</string>
-				<key>script</key>
-				<string>ObjC.import('Foundation');
-var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
-function run(argv) { return filter(['list', 'stop']); }</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Choose a running UTM VM to request shutdown</string>
-				<key>title</key>
-				<string>Stop UTM VM</string>
-				<key>type</key>
-				<integer>7</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1003</string>
-			<key>version</key>
-			<integer>3</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>alfredfiltersresults</key>
-				<true/>
-				<key>alfredfiltersresultsmatchmode</key>
-				<integer>2</integer>
-				<key>argumenttreatemptyqueryasnil</key>
-				<false/>
-				<key>argumenttrimmode</key>
-				<integer>0</integer>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>keyword</key>
-				<string>{var:UTM_KEYWORD} suspend</string>
-				<key>queuedelaycustom</key>
-				<integer>3</integer>
-				<key>queuedelayimmediatelyinitially</key>
-				<true/>
-				<key>queuedelaymode</key>
-				<integer>0</integer>
-				<key>queuemode</key>
-				<integer>1</integer>
-				<key>runningsubtext</key>
-				<string>Loading running UTM virtual machines...</string>
-				<key>script</key>
-				<string>ObjC.import('Foundation');
-var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
-function run(argv) { return filter(['list', 'suspend']); }</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Choose a running UTM VM to suspend</string>
-				<key>title</key>
-				<string>Suspend UTM VM</string>
-				<key>type</key>
-				<integer>7</integer>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.scriptfilter</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1004</string>
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
@@ -500,46 +334,6 @@ function run(argv) { return filter(['actions']); }</string>
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argument</key>
-				<string>{query}</string>
-				<key>passthroughargument</key>
-				<false/>
-				<key>variables</key>
-				<dict>
-					<key>vm_action</key>
-					<string>stop</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argument</key>
-				<string>{query}</string>
-				<key>passthroughargument</key>
-				<false/>
-				<key>variables</key>
-				<dict>
-					<key>vm_action</key>
-					<string>suspend</string>
-				</dict>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.argument</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>conditions</key>
 				<array>
 					<dict>
@@ -573,19 +367,19 @@ function run(argv) { return filter(['actions']); }</string>
 			<key>config</key>
 			<dict>
 				<key>alfredfiltersresults</key>
-				<false/>
+				<true/>
 				<key>alfredfiltersresultsmatchmode</key>
-				<integer>0</integer>
+				<integer>2</integer>
 				<key>argumenttreatemptyqueryasnil</key>
 				<false/>
 				<key>argumenttrimmode</key>
 				<integer>0</integer>
 				<key>argumenttype</key>
-				<integer>2</integer>
+				<integer>1</integer>
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string></string>
+				<string>{var:UTM_KEYWORD} start</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -595,19 +389,19 @@ function run(argv) { return filter(['actions']); }</string>
 				<key>queuemode</key>
 				<integer>1</integer>
 				<key>runningsubtext</key>
-				<string>Preparing clone...</string>
+				<string>Loading startable UTM virtual machines...</string>
 				<key>script</key>
 				<string>ObjC.import('Foundation');
 var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
-function run(argv) { return filter(['clone', argv[0] || '']); }</string>
+function run(argv) { return filter(['list', 'start']); }</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Enter a clone name for the selected UTM VM</string>
+				<string>Choose a stopped or suspended UTM VM to start</string>
 				<key>title</key>
-				<string>Clone UTM VM</string>
+				<string>Start UTM VM</string>
 				<key>type</key>
 				<integer>7</integer>
 				<key>withspace</key>
@@ -616,9 +410,30 @@ function run(argv) { return filter(['clone', argv[0] || '']); }</string>
 			<key>type</key>
 			<string>alfred.workflow.input.scriptfilter</string>
 			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</string>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<false/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>UTM</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</string>
+			<key>version</key>
+			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -642,27 +457,6 @@ function run(argv) { return filter(['clone', argv[0] || '']); }</string>
 			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</string>
 			<key>version</key>
 			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>lastpathcomponent</key>
-				<false/>
-				<key>onlyshowifquerypopulated</key>
-				<false/>
-				<key>removeextension</key>
-				<false/>
-				<key>text</key>
-				<string>{query}</string>
-				<key>title</key>
-				<string>UTM</string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.output.notification</string>
-			<key>uid</key>
-			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1012</string>
-			<key>version</key>
-			<integer>1</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -696,13 +490,153 @@ function run(argv) { return filter(['clone', argv[0] || '']); }</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} stop</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading running UTM virtual machines...</string>
+				<key>script</key>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'stop']); }</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose a running UTM VM to request shutdown</string>
+				<key>title</key>
+				<string>Stop UTM VM</string>
+				<key>type</key>
+				<integer>7</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1003</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>vm_action</key>
+					<string>stop</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<true/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>2</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:UTM_KEYWORD} suspend</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading running UTM virtual machines...</string>
+				<key>script</key>
+				<string>ObjC.import('Foundation');
+var filter = eval('(function () {' + ObjC.unwrap($.NSString.stringWithContentsOfFileEncodingError('bin/utm-filter.js', $.NSUTF8StringEncoding, null)) + '\nreturn run; })()');
+function run(argv) { return filter(['list', 'suspend']); }</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Choose a running UTM VM to suspend</string>
+				<key>title</key>
+				<string>Suspend UTM VM</string>
+				<key>type</key>
+				<integer>7</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1004</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argument</key>
+				<string>{query}</string>
+				<key>passthroughargument</key>
+				<false/>
+				<key>variables</key>
+				<dict>
+					<key>vm_action</key>
+					<string>suspend</string>
+				</dict>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.argument</string>
+			<key>uid</key>
+			<string>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1008</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string>## Usage
 
-Search UTM virtual machines with `utm` followed by a search term, for example `utm ubuntu`. A non-empty search term is required; the keyword alone, even with a trailing space, does not load VM results. Select a VM and press Return to open its status-aware action list.
-
-Use `utm list` to show all VMs without a search term. You can narrow the list with `utm list ubuntu`. Select a VM and press Return to choose an action; listing and selecting a VM do not start or stop it.
+Type `utm` followed by one space to show all VMs. Continue typing a search term, for example `utm ubuntu`, to filter by VM name, OS, backend, or architecture. Select a VM and press Return to open its status-aware action list; listing and selecting a VM do not start or stop it.
 
 Change **Keyword** in Configure Workflow to use another base keyword, such as `vm`, locally. Replace `utm` in the examples below with your chosen keyword.
 
@@ -738,16 +672,16 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Browse all UTM virtual machines</string>
 			<key>xpos</key>
-			<real>80</real>
+			<real>160</real>
 			<key>ypos</key>
-			<real>180</real>
+			<real>265</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1002</key>
 		<dict>
 			<key>note</key>
 			<string>Fast start keyword</string>
 			<key>xpos</key>
-			<real>80</real>
+			<real>160</real>
 			<key>ypos</key>
 			<real>420</real>
 		</dict>
@@ -756,7 +690,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Fast stop keyword</string>
 			<key>xpos</key>
-			<real>80</real>
+			<real>160</real>
 			<key>ypos</key>
 			<real>560</real>
 		</dict>
@@ -765,7 +699,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Fast suspend keyword</string>
 			<key>xpos</key>
-			<real>80</real>
+			<real>160</real>
 			<key>ypos</key>
 			<real>700</real>
 		</dict>
@@ -774,16 +708,16 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Status-aware action list for the selected VM</string>
 			<key>xpos</key>
-			<real>340</real>
+			<real>345</real>
 			<key>ypos</key>
-			<real>180</real>
+			<real>265</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1007</key>
 		<dict>
 			<key>note</key>
 			<string>Set vm_action=stop</string>
 			<key>xpos</key>
-			<real>340</real>
+			<real>365</real>
 			<key>ypos</key>
 			<real>590</real>
 		</dict>
@@ -792,7 +726,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Set vm_action=suspend</string>
 			<key>xpos</key>
-			<real>340</real>
+			<real>370</real>
 			<key>ypos</key>
 			<real>730</real>
 		</dict>
@@ -801,25 +735,25 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Route vm_action=clone to the clone-name prompt; route all other actions to vm-run</string>
 			<key>xpos</key>
-			<real>600</real>
+			<real>545</real>
 			<key>ypos</key>
-			<real>200</real>
+			<real>285</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1010</key>
 		<dict>
 			<key>note</key>
 			<string>Prompt for clone_name while preserving selected VM variables</string>
 			<key>xpos</key>
-			<real>875</real>
+			<real>710</real>
 			<key>ypos</key>
-			<real>165</real>
+			<real>250</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1011</key>
 		<dict>
 			<key>note</key>
 			<string>Execute the selected UTM action</string>
 			<key>xpos</key>
-			<real>1125</real>
+			<real>910</real>
 			<key>ypos</key>
 			<real>480</real>
 		</dict>
@@ -828,27 +762,18 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 			<key>note</key>
 			<string>Show vm-run output</string>
 			<key>xpos</key>
-			<real>1385</real>
+			<real>1260</real>
 			<key>ypos</key>
-			<real>480</real>
+			<real>465</real>
 		</dict>
 		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1013</key>
 		<dict>
 			<key>note</key>
 			<string>Only show notifications when enabled in workflow configuration</string>
 			<key>xpos</key>
-			<real>1260</real>
+			<real>1090</real>
 			<key>ypos</key>
-			<real>480</real>
-		</dict>
-		<key>A7F6B2D0-2D70-4C40-9B46-F5E87D6E1014</key>
-		<dict>
-			<key>note</key>
-			<string>List all VMs with optional search, then choose an action</string>
-			<key>xpos</key>
-			<real>80</real>
-			<key>ypos</key>
-			<real>300</real>
+			<real>500</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -917,7 +842,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 				<true/>
 			</dict>
 			<key>description</key>
-			<string>Base keyword for browsing, listing, and the start, stop, and suspend shortcuts. Defaults to utm; set vm here if you prefer it locally.</string>
+			<string>Base keyword for browsing and the start, stop, and suspend shortcuts. Defaults to utm; set vm here if you prefer it locally.</string>
 			<key>label</key>
 			<string>Keyword</string>
 			<key>type</key>
@@ -929,7 +854,7 @@ See the [repository](https://github.com/ideologysec/alfred-utm-control) for setu
 	<key>variables</key>
 	<dict/>
 	<key>version</key>
-	<string>1.2.0</string>
+	<string>1.2.1</string>
 	<key>webaddress</key>
 	<string>https://github.com/ideologysec/alfred-utm-control</string>
 </dict>

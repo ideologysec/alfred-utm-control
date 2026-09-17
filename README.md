@@ -2,8 +2,6 @@
 
 Search and control UTM virtual machines from Alfred. Browse VM status and details, start or suspend a VM, request shutdown, and even clone a VM.
 
-![Alfred showing the UTM browse, list, start, stop, and suspend keywords](images/utm-1.png)
-
 ## Requirements
 
 - macOS with [Alfred 5 and the Powerpack](https://www.alfredapp.com/powerpack/).
@@ -21,9 +19,7 @@ Install updates by downloading and opening the newer workflow attachment. The wo
 
 ## Browse VMs
 
-Type `utm` followed by a search term, such as `utm ubuntu`. Search by VM name, OS, backend, or architecture. Bare `utm`, including a trailing space, does not load results.
-
-Use `utm list` to show all VMs without a search term. An optional term, such as `utm list ubuntu`, narrows the results. Listing and selecting a VM does not start or stop it.
+Type `utm` followed by one space to show all VMs. Continue typing a search term, such as `utm ubuntu`, to filter by VM name, OS, backend, or architecture. Listing and selecting a VM does not start or stop it.
 
 ![Searching for Ubuntu VMs in Alfred, with status, backend, CPU, and memory details](images/utm-2.png)
 
@@ -54,7 +50,7 @@ The browse action list also offers **Run Without Saving Changes** for recognized
 
 Open **Configure Workflow** in Alfred to set:
 
-- **Keyword:** the base keyword, default `utm`. Changing it changes the browse, list, and direct-action keywords. For example, choosing `vm` gives `vm`, `vm list`, `vm start`, `vm stop`, and `vm suspend`.
+- **Keyword:** the base keyword, default `utm`. Changing it changes the browse and direct-action keywords. For example, choosing `vm` gives `vm`, `vm start`, `vm stop`, and `vm suspend`.
 - **Bring UTM to the front:** on by default after a successful start.
 - **Action notifications:** on by default. Keep them enabled for action feedback.
 - **Disposable QEMU starts:** off by default; applies to the direct start shortcut.
